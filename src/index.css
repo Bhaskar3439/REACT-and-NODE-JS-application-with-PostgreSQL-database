@@ -1,31 +1,45 @@
 /* index.css */
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 10;
+  padding: 20;
 }
-
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+	min-height: 100vh;
+	width: 100%;
+
+	align-items: center;
+	justify-content: center;
+  
+}
+.form-control {
+  width: 50%;
+  margin-bottom: 20px;
+  padding: auto;
+  padding: 12px;
+  border: 3px solid #a0a0a0;
+  border-radius: 15px;
+  background-color: #f8f8f8;
+  color: #333;
+  transition: border-color 0.3s ease-in-out;
 }
 
-.form-control {
-  width: 100%;
-  margin-bottom: 15px;
+.form-control:focus {
+  outline: none;
+  border-color: #4d90fe;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .table th, .table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 14px;
 }
 
 .table th {
@@ -35,10 +49,9 @@ body {
 }
 
 .table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
 }
 
 .table tbody tr:hover {
   background-color: #e9e9e9;
 }
-

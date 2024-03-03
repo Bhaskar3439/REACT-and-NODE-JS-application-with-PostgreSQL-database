@@ -1,42 +1,108 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Form } from 'react-bootstrap';
+import './App.css'; // Import CSS file for styling
 
 function App() {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('customer_name');
+  const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
-    axios.get('/api/customers')
-      .then(response => setCustomers(response.data))
-      .catch(error => console.error('Error fetching data:', error));
+    // Dummy data for testing
+    const dummyData = [
+      {
+        sno: 1,
+        customer_name: 'Bhaskar Reddy',
+        age: 22,
+        phone: '6309364153',
+        location: 'Rayachoty',
+        created_at: '2024-03-01T10:30:00Z' // Assuming UTC timestamp
+      },
+      {
+        sno: 2,
+        customer_name: 'Lalith',
+        age: 21,
+        phone: '9948788174',
+        location: 'Allagadda',
+        created_at: '2024-03-02T15:45:00Z' // Assuming UTC timestamp
+      },
+      {
+        sno: 3,
+        customer_name: 'Sreenath Kumar',
+        age: 21,
+        phone: '9703606674',
+        location: 'Madanapalli',
+        created_at: '2024-03-03T08:00:00Z' // Assuming UTC timestamp
+      },
+      {
+        sno: 4,
+        customer_name: 'Ravali',
+        age: 20,
+        phone: '9490727879',
+        location: 'Karnool',
+        created_at: '2024-03-04T12:20:00Z' // Assuming UTC timestamp
+      },
+      {
+        sno: 5,
+        customer_name: 'Thunder Tharun',
+        age: 21,
+        phone: '7780466349',
+        location: 'Madanapali',
+        created_at: '2024-03-05T09:10:00Z' // Assuming UTC timestamp
+      },
+      {
+        sno: 6,
+        customer_name: 'Priyanka',
+        age: 21,
+        phone: '9000064659',
+        location: 'Ananthapuram',
+        created_at: '2024-03-05T09:10:00Z' // Assuming UTC timestamp
+      }
+    ];
+
+    // Set dummy data to state
+    setCustomers(dummyData);
   }, []);
 
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-  };
+  const sortedCustomers = [...customers].map((customer, index) => ({ ...customer, originalIndex: index })).sort((a, b) => {
+    if (sortBy === 'customer_name') {
+      return a.customer_name.localeCompare(b.customer_name) || a.originalIndex - b.originalIndex;
+    } else if (sortBy === 'location') {
+      return a.location.localeCompare(b.location) || a.originalIndex - b.originalIndex;
+    }
+    return 0;
+  });
 
-  const filteredCustomers = customers.filter(customer =>
+  const filteredCustomers = sortedCustomers.filter(customer =>
     customer.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.location.toLowerCase().includes(searchTerm.toLowerCase())
-  ).sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1);
+  );
 
   return (
     <div className="container mt-5">
-      <Form.Group>
+      <div className="search-sort-container">
         <Form.Control
+          className="search-input"
           type="text"
           placeholder="Search by Name or Location"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Form.Select value={sortBy} onChange={handleSortChange}>
-          <option value="customer_name">Sort by Name</option>
-          <option value="age">Sort by Age</option>
-          <option value="location">Sort by Location</option>
-        </Form.Select>
-      </Form.Group>
+        <Form.Control
+          className="sort-select"
+          as="select"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="">Sort By</option>
+          <option value="customer_name">Customer Name</option>
+          <option value="Phone">Phone</option>
+          <option value="location">Location</option>
+          <option value="Date">Date</option>
+          <option value="Time">Time</option>
+          
+        </Form.Control>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
